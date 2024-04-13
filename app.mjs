@@ -2,40 +2,56 @@ import { Web3 } from 'web3';
 import { IpcProvider } from 'web3-providers-ipc';
 
 // Connect to the Ethereum network using IPC provider
-const ipcPath = '/var/run/geth.ipc'; // Replace with your actual IPC path
+const ipcPath = '/var/run/geth.ipc'; // Replace with  actual IPC path
 const ipcProvider = new IpcProvider(ipcPath);
 
 const web3 = new Web3(ipcProvider);
 
-async function main() {
+async function viewAccounts() {
   try {
-    
-
     // Get the list of accounts in the connected node which is in this case: geth in dev mode.
     const accounts = await web3.eth.getAccounts();
     console.log('Accounts:', accounts);
 
-    // // Send a transaction to the network
-    // const transactionReceipt = await web3.eth.sendTransaction({
-    //   from: accounts[0],
-    //   to: accounts[0], // sending a self-transaction
-    //   value: web3.utils.toWei('0.001', 'ether'),
-    // });
-    // console.log('Transaction Receipt:', transactionReceipt);
   } catch (error) {
     console.error('An error occurred:', error);
   }
 }
 
-main();
-// // Create a Web3 provider using the IPC path
-// const provider = new Web3.providers.IpcProvider('/var/run/geth.ipc');
-// const web3 = new Web3(provider);
+// Account creation 
+async function createAccount(password) {
+  try {
+    // Password validation criteria
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-// // Account creation and verification functions (implementation provided later)
-// async function createAccount() {
-//     // ... (account creation logic)
-// }
+    // Validate password criteria
+    if (password.length < minLength) {
+      throw new Error('Password should be at least 8 characters long');
+    }
+    if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+      throw new Error('Password should include at least one uppercase letter, one lowercase letter, one number, and one special character');
+    }
+
+    // Create a new Ethereum account
+    const account = web3.eth.accounts.create();
+
+    // Encrypt the private key with the provided password
+    const encryptedPrivateKey = await web3.eth.accounts.encrypt(account.privateKey, password);
+
+    // Return the account address and encrypted private key
+    return {
+      address: account.address,
+      encryptedPrivateKey: encryptedPrivateKey
+    };
+  } catch (error) {
+    console.error('Error creating account:', error.message);
+    return null;
+  }
+}
 
 // async function verifyAccount(address) {
 //     // ... (account verification logic)
