@@ -1,6 +1,7 @@
 import { Web3 } from 'web3';
 import { IpcProvider } from 'web3-providers-ipc';
-
+const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
 // Connect to the Ethereum network using IPC provider
 const ipcPath = '/var/run/geth.ipc'; // Replace with  actual IPC path
 const ipcProvider = new IpcProvider(ipcPath);
