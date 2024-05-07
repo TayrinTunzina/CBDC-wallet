@@ -1,10 +1,15 @@
 import { Web3 } from 'web3';
 import { IpcProvider } from 'web3-providers-ipc';
+import driver from 'bigchaindb-driver';
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
+const { Ed25519Sha256 } = require('crypto-conditions');
+
+
 // Connect to the Ethereum network using IPC provider
 const ipcPath = '/var/run/geth.ipc'; // Replace with  actual IPC path
 const ipcProvider = new IpcProvider(ipcPath);
+const API_PATH = 'http://localhost:9984/api/v1/'
 
 const web3 = new Web3(ipcProvider);
 
