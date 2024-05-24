@@ -1,15 +1,15 @@
 import { Web3 } from 'web3';
 import { IpcProvider } from 'web3-providers-ipc';
-import driver from 'bigchaindb-driver';
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
-const { Ed25519Sha256 } = require('crypto-conditions');
+import { driver } from 'bigchaindb-driver';
+
 
 
 // Connect to the Ethereum network using IPC provider
 const ipcPath = '/var/run/geth.ipc'; // Replace with  actual IPC path
 const ipcProvider = new IpcProvider(ipcPath);
-const API_PATH = 'http://localhost:9984/api/v1/'
+// const API_PATH = 'http://localhost:9984/api/v1/';
+// const conn = new BigchainDB.Connection(API_PATH);
+
 
 const web3 = new Web3(ipcProvider);
 
@@ -60,17 +60,17 @@ async function createAccount(password) {
 }
 
 // async function verifyAccount(address) {
-//     // ... (account verification logic)
+
 // }
 
-// // Account login function (implementation depends on your authentication method)
-// function loginToAccount(address, password) {
-//     // Implement login logic based on your chosen authentication method (e.g., password, private key)
-// }
+
+function loginToAccount(address, password) {
+
+}
 
 // // Function to initialize account balance (implementation depends on your logic)
 // async function initializeAccountBalance(address, amount) {
-//     // ... (logic to add funds to the account)
+
 // }
 
 // // Function to monitor transactions (implementation provided later)
@@ -83,7 +83,7 @@ async function createAccount(password) {
 //     // ... (logic to retrieve and display transactions for an account)
 // }
 
-// // (Optional) Example usage
+
 // (async () => {
 //     try {
 //         // Connect to geth
